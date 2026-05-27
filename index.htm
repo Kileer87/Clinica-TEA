@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Comunicar - Sistema Integrado TEA/ABA</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Biblioteca para Renderizar os Gráficos Clínicos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <!-- BARRA LATERAL (SIDEBAR) -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon">➕</div>
+                <div>
+                    <h2>Clínica Comunicar</h2>
+                    <span>v 1.0.2</span>
+                </div>
+            </div>
+            
+            <nav class="menu">
+                <a href="#" class="menu-item active" data-target="dashboard">📊 Dashboard</a>
+                <a href="#" class="menu-item" data-target="cadastros">📝 Cadastros <span class="arrow">›</span></a>
+                <a href="#" class="menu-item" data-target="pessoas">👥 Pessoas <span class="arrow">›</span></a>
+                
+                <div class="menu-group">
+                    <a href="#" class="menu-item toggle-submenu">
+                        🏥 Clínica <span class="arrow-down">⌃</span>
+                    </a>
+                    <div class="submenu open">
+                        <a href="#" class="submenu-item" data-target="agenda">📅 Agendamentos</a>
+                        <a href="#" class="submenu-item" data-target="pacientes">👥 Pacientes</a>
+                        <a href="#" class="submenu-item" data-target="profissionais">📇 Profissionais</a>
+                        <a href="#" class="submenu-item" data-target="especialidades">🩺 Especialidades</a>
+                        <a href="#" class="submenu-item" data-target="acompanhamento">🗂️ Acompanhamento</a>
+                        <a href="#" class="submenu-item" data-target="aniversariantes">🎂 Aniversariantes</a>
+                        <a href="#" class="submenu-item" data-target="anamnese">📋 Anamnese</a>
+                        <a href="#" class="submenu-item" data-target="plano-terapeutico">🎯 Plano Terapêutico</a>
+                        <a href="#" class="submenu-item" data-target="areas-aba">🌿 Áreas (ABA)</a>
+                        <a href="#" class="submenu-item" data-target="estrategias">💡 Estratégias</a>
+                        <a href="#" class="submenu-item" data-target="programas-aba">🧩 Programas ABA</a>
+                        <a href="#" class="submenu-item" data-target="atribuir-programas">👨‍⚕️ Atribuir Programas</a>
+                        <a href="#" class="submenu-item" data-target="evolucao">📋 Sessões de Treino / Evolução</a>
+                        <a href="#" class="submenu-item" data-target="relatorios">📄 Relatório PTABA</a>
+                    </div>
+                </div>
+
+                <a href="#" class="menu-item" data-target="financeiro">💰 Financeiro</a>
+            </nav>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-content">
+            
+            <!-- SEÇÃO: DASHBOARD -->
+            <div id="dashboard" class="app-section active">
+                <div class="welcome-banner">
+                    <h1>Olá, Administrador! 👋</h1>
+                    <p>CLÍNICA COMUNICAR+ — DESENVOLVIMENTO E TERAPIA INFANTIL</p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card card-teal">
+                        <span class="card-title">Pacientes Ativos</span>
+                        <span class="card-value" id="dash-pacientes-ativos">3</span>
+                    </div>
+                    <div class="card card-blue">
+                        <span class="card-title">Profissionais Cadastrados</span>
+                        <span class="card-value" id="dash-profissionais-count">2</span>
+                    </div>
+                    <div class="card card-orange">
+                        <span class="card-title">Sessões Agendadas na Semana</span>
+                        <span class="card-value">5</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🎂 Aniversariantes em Destaque</h3>
+                    <div class="form-row" style="margin-top: 15px;">
+                        <div style="flex:1;">
+                            <h4 style="color: #00796b;">Hoje</h4>
+                            <ul class="birthday-list">
+                                <li style="color: #64748b; font-style: italic;">Nenhum aniversariante hoje.</li>
+                            </ul>
+                        </div>
+                        <div style="flex:1;">
+                            <h4 style="color: #7c2d12;">Na Semana</h4>
+                            <ul class="birthday-list">
+                                <li>Heloisa de Mathia (29/05)</li>
+                                <li>Bento Afonso (02/06)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SEÇÃO: CADASTROS -->
+            <div id="cadastros" class="app-section">
+                <div class="card">
+                    <h2>📝 Cadastros Gerais do Sistema</h2>
+                    <p style="margin-bottom: 20px; color: #64748b;">Selecione uma das opções abaixo para gerenciar os registros centrais da clínica:</p>
+                    <div class="form-row">
+                        <button class="btn" onclick="irParaAba('pacientes')">Ir para Pacientes</button>
+                        <button class="btn" onclick="irParaAba('profissionais')">Ir para Profissionais</button>
+                        <button class="btn" onclick="irParaAba('especialidades')">Ir para Especialidades</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: PESSOAS -->
+            <div id="pessoas" class="app-section">
+                <div class="card">
+                    <h2>👥 Gerenciamento Unificado de Pessoas</h2>
+                    <p style="margin-bottom: 20px; color: #64748b;">Visualize todos os indivíduos e categorias integradas à instituição clínica:</p>
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Nome Completo</th><th>Vínculo / Categoria</th><th>Contato / E-mail</th></tr>
+                        </thead>
+                        <tbody id="tabela-unificada-pessoas">
+                            <!-- Injetado via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: AGENDAMENTOS -->
+            <div id="agenda" class="app-section">
+                <div class="card">
+                    <h2>📅 Quadro de Agendamentos Semanais</h2>
+                    <div class="calendar-container">
+                        <div class="calendar-grid">
+                            <div class="day-col">
+                                <div class="day-name">Segunda</div>
+                                <div class="event"><strong>09:00</strong><br><span>Bento Afonso</span><br><em>Terapia ABA</em></div>
+                            </div>
+                            <div class="day-col">
+                                <div class="day-name">Terça</div>
+                                <div class="event orange"><strong>10:30</strong><br><span>Heloisa de Mathia</span><br><em>Fonoaudiologia</em></div>
+                            </div>
+                            <div class="day-col">
+                                <div class="day-name">Quarta</div>
+                                <div class="event blue"><strong>08:00</strong><br><span>Isabela Gomes</span><br><em>Avaliação Inicial</em></div>
+                            </div>
+                            <div class="day-col">
+                                <div class="day-name">Quinta</div>
+                                <div class="event"><strong>15:00</strong><br><span>Bento Afonso</span><br><em>Terapia ABA</em></div>
+                            </div>
+                            <div class="day-col">
+                                <div class="day-name">Sexta</div>
+                                <div class="event orange"><strong>09:00</strong><br><span>Heloisa de Mathia</span><br><em>Fonoaudiologia</em></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: PACIENTES -->
+            <div id="pacientes" class="app-section">
+                <div class="card">
+                    <h2>➕ Cadastrar Novo Paciente</h2>
+                    <form id="formPaciente" style="margin-top: 15px;">
+                        <div class="form-row">
+                            <input type="text" id="nomePaciente" class="form-control" placeholder="Nome Completo do Paciente" required>
+                            <input type="text" id="respPaciente" class="form-control" placeholder="Nome do Responsável Legal" required>
+                            <input type="date" id="nascPaciente" class="form-control" title="Data de Nascimento" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="convenioPaciente" class="form-control" placeholder="Convênio Médico (Ex: Unimed)">
+                            <select id="statusPaciente" class="form-control">
+                                <option value="Ativo">Ativo</option>
+                                <option value="Inativo">Inativo</option>
+                            </select>
+                            <button type="submit" class="btn">Adicionar Cadastro</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>Lista de Alunos / Pacientes</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Paciente</th><th>Responsável</th><th>Nascimento</th><th>Convênio</th><th>Status</th></tr></thead>
+                        <tbody id="listaPacientes"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: PROFISSIONAIS -->
+            <div id="profissionais" class="app-section">
+                <div class="card">
+                    <h2>➕ Cadastrar Novo Profissional Clínico</h2>
+                    <form id="formProfissional" style="margin-top: 15px;">
+                        <div class="form-row">
+                            <input type="text" id="nomeProfissional" class="form-control" placeholder="Nome do Especialista" required>
+                            <input type="text" id="espProfissional" class="form-control" placeholder="Especialidade (Ex: Psicólogo ABA)" required>
+                            <input type="date" id="nascProfissional" class="form-control" title="Data de Nascimento" required>
+                            <button type="submit" class="btn">Adicionar Membro</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>Corpo Clínico Integrado</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Nome</th><th>Especialidade Ocupada</th><th>Data Nasc.</th></tr></thead>
+                        <tbody id="listaProfissionais"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: ESPECIALIDADES -->
+            <div id="especialidades" class="app-section">
+                <div class="card">
+                    <h2>🩺 Especialidades Atendidas</h2>
+                    <p style="margin-bottom: 15px; color:#64748b;">Escopo clínico multidisciplinar ativo:</p>
+                    <ul class="birthday-list">
+                        <li>🧠 Psicologia Comportamental Analítica (ABA)</li>
+                        <li>🗣️ Fonoaudiologia e Linguagem Infantil</li>
+                        <li>🏃 Terapia Ocupacional (Integração Sensorial)</li>
+                        <li>🏫 Psicopedagogia e Intervenção Escolar</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: ACOMPANHAMENTO -->
+            <div id="acompanhamento" class="app-section">
+                <div class="card">
+                    <h2>🗂️ Diário Clínico de Acompanhamento</h2>
+                    <table class="data-table">
+                        <thead><tr><th>Data</th><th>Paciente</th><th>Resumo da Evolução Clínico-Comportamental</th></tr></thead>
+                        <tbody>
+                            <tr><td>25/05/2026</td><td>Bento Afonso</td><td>Sessão focada em ecoico. Respondeu bem aos estímulos sonoros primários.</td></tr>
+                            <tr><td>26/05/2026</td><td>Heloisa de Mathia</td><td>Apresentou diminuição de comportamentos de esquiva durante troca de reforço.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: ANIVERSARIANTES -->
+            <div id="aniversariantes" class="app-section">
+                <div class="card">
+                    <h2>🎂 Cronograma de Natalícios</h2>
+                    <table class="data-table">
+                        <thead><tr><th>Nome</th><th>Vínculo</th><th>Mês / Dia</th></tr></thead>
+                        <tbody>
+                            <tr><td>Heloisa de Mathia Marchioretto</td><td>Paciente</td><td>29 de Maio</td></tr>
+                            <tr><td>Bento Afonso de Brito</td><td>Paciente</td><td>02 de Junho</td></tr>
+                            <tr><td>Dr(a). Cyntia Arruda</td><td>Profissional</td><td>14 de Junho</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: ANAMNESE -->
+            <div id="anamnese" class="app-section">
+                <div class="card">
+                    <h2>📋 Registro de Triagens e Anamnese</h2>
+                    <table class="data-table">
+                        <thead><tr><th>Paciente</th><th>Entrevistado (Mãe/Pai)</th><th>Data Execução</th><th>Supervisor</th></tr></thead>
+                        <tbody>
+                            <tr><td>BENTO AFONSO DE BRITO</td><td>Maria Fernandes (Mãe)</td><td>15/05/2026</td><td>Dr(a). Cyntia Arruda</td></tr>
+                            <tr><td>HELOISA DE MATHIA</td><td>Carlos Marchioretto (Pai)</td><td>10/04/2026</td><td>Dr(a). Cyntia Arruda</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: PLANO TERAPÊUTICO -->
+            <div id="plano-terapeutico" class="app-section">
+                <div class="card">
+                    <h2>🎯 Plano de Ensino Individualizado (PEI)</h2>
+                    <div class="card" style="border-top: 4px solid #00796b; margin-top: 15px; background: #fafafa;">
+                        <h3 style="color: #00796b;">🗣️ Domínio: Comportamento Verbal</h3>
+                        <p style="margin-top: 8px; font-size:14px;"><strong>Meta:</strong> Reduzir dependência de dicas ecóicas para solicitação de itens de interesse (mando funcional).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: ÁREAS ABA -->
+            <div id="areas-aba" class="app-section">
+                <div class="card">
+                    <h2>🌿 Áreas Estruturais do Desenvolvimento Humano (ABA)</h2>
+                    <div class="form-row" style="margin-top: 15px;">
+                        <div class="card card-orange" style="flex:1; padding: 15px;"><h4>Habilidades de Atenção</h4><p style="font-size:12px; color:#64748b;">Sentar, rastreio visual e contato visual sustentado.</p></div>
+                        <div class="card card-blue" style="flex:1; padding: 15px;"><h4>Imitação Motora</h4><p style="font-size:12px; color:#64748b;">Imitar movimentos finos e amplos com objetos.</p></div>
+                        <div class="card card-green" style="flex:1; padding: 15px;"><h4>Comportamento Verbal</h4><p style="font-size:12px; color:#64748b;">Desenvolvimento de mandos, tatos e intraverbais.</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: PROGRAMAS ABA -->
+            <div id="programas-aba" class="app-section">
+                <div class="card">
+                    <h2>🧩 Catálogo de Programas de Intervenção</h2>
+                    <table class="data-table">
+                        <thead><tr><th>Programa</th><th>Área Core</th><th>Critério de Saída (Independência)</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Contato Visual</strong></td><td>Atenção Básica</td><td>80% de acertos por 3 dias seguidos</td></tr>
+                            <tr><td><strong>Sentar e Permanecer</strong></td><td>Atenção Básica</td><td>Ficar à mesa por 5 minutes funcionais</td></tr>
+                            <tr><td><strong>Imitação com Objetos</strong></td><td>Habilidades de Imitação</td><td>90% de respostas independentes</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: ATRIBUIR PROGRAMAS -->
+            <div id="atribuir-programas" class="app-section">
+                <div class="card">
+                    <h2>👨‍⚕️ Alocação e Vinculação de Programas ABA</h2>
+                    <p style="color:#64748b; margin-bottom: 15px;">Vincule um paciente cadastrado ao seu respectivo programa e terapeuta aplicador:</p>
+                    <form id="formAtribuir">
+                        <div class="form-row">
+                            <select id="selectPacienteAtribuir" class="form-control" required>
+                                <option value="">-- Selecione o Paciente --</option>
+                            </select>
+                            <select id="selectProgramaAtribuir" class="form-control" required>
+                                <option value="Sentar à Mesa">Sentar à Mesa</option>
+                                <option value="Contato Visual">Contato Visual</option>
+                                <option value="Imitação com Objetos">Imitação com Objetos</option>
+                            </select>
+                            <select id="selectProfissionalAtribuir" class="form-control" required>
+                                <option value="">-- Selecione o Terapeuta --</option>
+                            </select>
+                            <button type="submit" class="btn">Criar Vínculo</button>
+                        </div>
+                    </form>
+                    
+                    <h3 style="margin-top: 25px;">Grade de Programas Vinculados</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Paciente</th><th>Programa ABA Alocado</th><th>Terapeuta Responsável</th></tr></thead>
+                        <tbody id="listaVinculosProgramas">
+                            <tr><td>BENTO AFONSO DE BRITO FERNANDES</td><td>Contato Visual</td><td>Dr(a). Cyntia Arruda</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: SESSÕES DE TREINO -->
+            <div id="evolucao" class="app-section">
+                <div class="card">
+                    <h2>📋 Coleta e Registro de Folha de Tentativas</h2>
+                    <p style="color:#64748b; margin-bottom: 15px;">Marque os níveis de ajuda aplicados nas tentativas diárias para atualizar os dados gráficos:</p>
+                    
+                    <div id="sessoes-treino">
+                        <!-- Gerado via JavaScript -->
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📊 Linha Gráfica de Progresso Clínico</h2>
+                    <div style="position: relative; height:260px; width:100%; margin-top: 15px;">
+                        <canvas id="evolucaoChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: RELATÓRIOS -->
+            <div id="relatorios" class="app-section">
+                <div class="card">
+                    <h2>📄 Emissão Consolidada de Relatório PTABA</h2>
+                    <p style="color:#64748b; margin-bottom: 15px;">Selecione o prontuário para exportar o relatório analítico exigido pelos planos de saúde:</p>
+                    <div class="form-row">
+                        <select id="selectPacienteRelatorio" class="form-control">
+                            <!-- Preenchido via JS -->
+                        </select>
+                        <button class="btn" onclick="alert('Relatório consolidado gerado com sucesso! Arquivo compilado e pronto para impressão.')">Exportar Relatório</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO: FINANCEIRO -->
+            <div id="financeiro" class="app-section">
+                <div class="card">
+                    <h2>💰 Fluxo de Caixa e Controle Financeiro</h2>
+                    <div class="cards-grid" style="margin-top: 15px;">
+                        <div class="card card-green">
+                            <span class="card-title">Faturamento Recebido</span>
+                            <span class="card-value">R$ 17.528,97</span>
+                        </div>
+                        <div class="card card-orange">
+                            <span class="card-title">Contas Líquidas a Pagar</span>
+                            <span class="card-value">R$ 4.215,22</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Chamando o arquivo externo de lógica -->
+    <script src=".js"></script>
+</body>
+</html>
