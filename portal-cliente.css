@@ -1,75 +1,52 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-}
-
 body {
-    background-color: #f0f9ff; /* Um azul bem claro */
-    color: #0c4a6e; /* Azul escuro para textos */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-}
-
-.main-header {
-    width: 100%;
-    background-color: #00796b;
-    color: white;
+    background-color: #f1f5f9;
     padding: 20px;
+}
+
+.client-container {
+    max-width: 500px;
+    margin: 40px auto;
+}
+
+.client-header {
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.container {
-    width: 100%;
-    max-width: 600px;
-    padding: 40px 20px;
-}
-
-.card {
-    background-color: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
-    margin-bottom: 30px;
-}
-
-.card h2 {
-    margin-bottom: 8px;
-    color: #01493e;
-}
-
-.card p {
     margin-bottom: 25px;
-    font-size: 15px;
-    color: #475569;
-    line-height: 1.6;
+}
+
+.client-header h2 { color: #01493e; }
+.client-header p { font-size: 13px; color: #64748b; margin-top: 4px; }
+
+.client-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 6px;
-    font-size: 14px;
+.form-group label { font-size: 13px; font-weight: 600; color: #334155; }
+.form-input { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
+.form-input:focus { border-color: #00796b; }
+
+.btn-submit {
+    width: 100%; background-color: #00796b; color: white; border: none; padding: 12px;
+    border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 10px;
 }
+.btn-submit:hover { background-color: #01493e; }
 
-.form-control {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 15px;
+/* SEÇÃO WHATSAPP */
+.whatsapp-section {
+    margin-top: 30px; text-align: center; background: #e8f5e9; padding: 20px; border-radius: 10px; border: 1px solid #c8e6c9;
 }
-
-.btn { width: 100%; padding: 15px; font-size: 16px; background-color: #00796b; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-.btn:hover { background-color: #01493e; }
-
-.hidden { display: none; }
-hr { border: none; border-top: 1px solid #e2e8f0; margin: 25px 0; }
+.whatsapp-section p { font-size: 13px; color: #2e7d32; margin-bottom: 12px; }
+.btn-whatsapp {
+    display: inline-block; background-color: #25d366; color: white; text-decoration: none;
+    padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 13.5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.btn-whatsapp:hover { background-color: #128c7e; }

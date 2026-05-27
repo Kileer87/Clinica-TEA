@@ -1,16 +1,16 @@
-// --- 1. MATRIZES DE DADOS EM MEMÓRIA ---
-let pacientes = [
+// --- 1. MATRIZES DE DADOS (com persistência em LocalStorage) ---
+let pacientes = JSON.parse(localStorage.getItem('pacientes')) || [
     { nome: "BENTO AFONSO DE BRITO FERNANDES", resp: "Maria Fernandes", nasc: "2021-03-12", convenio: "Unimed", status: "Ativo" },
     { nome: "HELOISA DE MATHIA MARCHIORETTO", resp: "Carlos Marchioretto", nasc: "2020-07-22", convenio: "Bradesco", status: "Ativo" },
     { nome: "ISABELA GOMES RODRIGUES", resp: "Paula Gomes", nasc: "2019-11-05", convenio: "Particular", status: "Ativo" }
 ];
 
-let profissionais = [
+let profissionais = JSON.parse(localStorage.getItem('profissionais')) || [
     { nome: "Dr(a). Cyntia Arruda", esp: "Fonoaudiólogo(a)", nasc: "1988-04-14" },
     { nome: "Dr(a). Wyllyan Lima", esp: "Psicólogo(a) Infantil", nasc: "1991-09-27" }
 ];
 
-let evolucoes = [
+let evolucoes = JSON.parse(localStorage.getItem('evolucoes')) || [
     { data: "25/05/2026", pac: "BENTO AFONSO DE BRITO FERNANDES", resumo: "Sessão focada em ecoico. Respondeu bem aos estímulos sonoros primários." },
     { data: "26/05/2026", pac: "HELOISA DE MATHIA MARCHIORETTO", resumo: "Apresentou diminuição de comportamentos de esquiva durante troca de reforço." }
 ];
@@ -54,6 +54,51 @@ function irParaAba(idAba) {
             l.classList.contains('submenu-item') ? l.classList.add('sub-active') : l.classList.add('active');
         }
     });
+}
+
+// --- LÓGICA DE SINCRO COM PORTAL DO CLIENTE ---
+function carregarAgendamentosSincronizados() {
+    // Busca os dados salvos pelo cliente no localStorage
+    let agendamentosDoPortal = JSON.parse(localStorage.getItem('agendamentosCompartilhados')) || [];
+    
+    // Alvo: Onde fica a lista ou calendário semanal de agendamentos no painel admin
+    const secaoAgenda = document.getElementById('agenda');
+    if (!secaoAgenda) return;
+    
+    // Vamos criar uma listagem dinâmica para o administrador ver o que o cliente enviou
+    let tabelaAdminHtml = `
+        <div class="card">
+            <h2>📅 Horários Recebidos e Agendados (Portal do Cliente)</h2>
+            <p style="color: #64748b; margin-bottom: 15px;">Abaixo estão as solicitações que os clientes realizaram de forma remota:</p>
+            <table class="data-table">
+                <thead>
+                    <tr><th>Paciente</th><th>Data Solicitada</th><th>Horário</th><th>Especialidade</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+    `;
+
+    if (agendamentosDoPortal.length === 0) {
+        tabelaAdminHtml += `<tr><td colspan="5" style="text-align:center; color:#94a3b8; font-style:italic;">Nenhum agendamento recebido pelo portal do cliente ainda.</td></tr>`;
+    } else {
+        agendamentosDoPortal.forEach(ag => {
+            // Formatando a data de AAAA-MM-DD para DD/MM/AAAA de forma simples
+            const dataFormatada = ag.data.split('-').reverse().join('/');
+            tabelaAdminHtml += `
+                <tr>
+                    <td><strong>${ag.paciente}</strong></td>
+                    <td>${dataFormatada}</td>
+                    <td><span class="status-badge" style="background:#e3f2fd; color:#1565c0;">${ag.horario}</span></td>
+                    <td>${ag.especialidade}</td>
+                    <td><span class="status-badge done">${ag.status}</span></td>
+                </tr>
+            `;
+        });
+    }
+
+    tabelaAdminHtml += `</tbody></table></div>`;
+    
+    // Injeta a tabela dinâmica com as solicitações recebidas dentro da sua aba de Agenda
+    secaoAgenda.innerHTML = tabelaAdminHtml;
 }
 
 // --- 3. COMUNICAÇÃO DINÂMICA ENTRE COMPONENTES ---
@@ -135,6 +180,8 @@ function atualizarTelasESelects() {
     
     if (listaNiverHoje) listaNiverHoje.innerHTML = htmlHoje || '<li style="color: #64748b; font-style: italic;">Nenhum aniversariante hoje.</li>';
     if (listaNiverSemana) listaNiverSemana.innerHTML = htmlSemana || '<li style="color: #64748b; font-style: italic;">Nenhum na próxima semana.</li>';
+
+    carregarAgendamentosSincronizados();
 }
 
 // --- 4. INTERCEPTADORES DE CADASTROS ---
@@ -147,6 +194,7 @@ document.getElementById('formPaciente').addEventListener('submit', function(e) {
         convenio: document.getElementById('convenioPaciente').value || "Particular",
         status: document.getElementById('statusPaciente').value
     });
+    localStorage.setItem('pacientes', JSON.stringify(pacientes));
     this.reset();
     atualizarTelasESelects();
     alert('Cadastro Concluído: Paciente inserido com sucesso!');
@@ -159,6 +207,7 @@ document.getElementById('formProfissional').addEventListener('submit', function(
         esp: document.getElementById('espProfissional').value,
         nasc: document.getElementById('nascProfissional').value
     });
+    localStorage.setItem('profissionais', JSON.stringify(profissionais));
     this.reset();
     atualizarTelasESelects();
     alert('Cadastro Concluído: Especialista adicionado ao quadro clínico!');
@@ -188,6 +237,7 @@ if (formProntuario) {
         const dataFormatada = `${dia}/${mes}/${ano}`;
 
         evolucoes.push({ data: dataFormatada, pac: pac, resumo: resumo });
+        localStorage.setItem('evolucoes', JSON.stringify(evolucoes));
         this.reset();
         alert('Evolução adicionada ao prontuário com sucesso!');
         

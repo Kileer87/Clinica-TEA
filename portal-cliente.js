@@ -1,36 +1,24 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.getElementById('formAgendamentoCliente').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-    const formCadastro = document.getElementById('formCadastroCliente');
-    const formAgendamento = document.getElementById('formAgendamento');
+    const novaSolicitacao = {
+        paciente: document.getElementById('nomeCrianca').value.toUpperCase(),
+        data: document.getElementById('dataAgendamento').value,
+        horario: document.getElementById('horaAgendamento').value,
+        profissional: "A Alocar (Solicitado pelo Portal)",
+        especialidade: "Terapia ABA",
+        status: "Agendado"
+    };
 
-    const areaCadastro = document.getElementById('area-cadastro');
-    const areaAgendamento = document.getElementById('area-agendamento');
+    // Puxa agendamentos já existentes ou cria uma lista vazia se for o primeiro
+    let agendamentosExistentes = JSON.parse(localStorage.getItem('agendamentosCompartilhados')) || [];
+    
+    // Adiciona o novo agendamento enviado pelo cliente à lista
+    agendamentosExistentes.push(novaSolicitacao);
+    
+    // Salva a lista atualizada de volta no localStorage do navegador
+    localStorage.setItem('agendamentosCompartilhados', JSON.stringify(agendamentosExistentes));
 
-    // Lógica para o formulário de cadastro
-    formCadastro.addEventListener('submit', function(e) {
-        e.preventDefault(); // Impede o recarregamento da página
-
-        const nomeResponsavel = document.getElementById('respNome').value;
-        alert(`Olá, ${nomeResponsavel}! Seu cadastro foi realizado com sucesso. Agora você já pode marcar sua primeira consulta.`);
-
-        // Esconde o formulário de cadastro e mostra o de agendamento
-        areaCadastro.classList.add('hidden');
-        areaAgendamento.classList.remove('hidden');
-    });
-
-    // Lógica para o formulário de agendamento
-    formAgendamento.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Marcação confirmada! Nossa equipe entrará em contato em breve para finalizar os detalhes. Obrigado!');
-    });
-
-    // Registro do Service Worker (PWA)
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('SW Portal Cliente Registrado!', reg.scope))
-                .catch(err => console.error('Erro SW Portal Cliente:', err));
-        });
-    }
-
+    alert('Solicitação de agendamento enviada! O painel administrativo receberá seu horário imediatamente.');
+    this.reset();
 });

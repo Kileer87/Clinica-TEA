@@ -5,72 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Cliente - Clínica Comunicar</title>
     <link rel="stylesheet" href="portal-cliente.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#00796b">
 </head>
 <body>
 
-    <header class="main-header">
-        <h1>🧩 Portal do Cliente - Clínica Comunicar</h1>
-    </header>
+    <div class="client-container">
+        <header class="client-header">
+            <h2>📅 Portal de Agendamento Infantil</h2>
+            <p>Selecione o melhor dia e horário para a sessão do seu filho.</p>
+        </header>
 
-    <main class="container">
+        <!-- FORMULÁRIO DE AGENDAMENTO -->
+        <div class="client-card">
+            <h3>Solicitar Novo Horário</h3>
+            <form id="formAgendamentoCliente" style="margin-top: 15px;">
+                <div class="form-group">
+                    <label for="nomeCrianca">Nome da Criança:</label>
+                    <input type="text" id="nomeCrianca" class="form-input" placeholder="Ex: Bento Afonso" required>
+                </div>
 
-        <!-- ETAPA 1: CADASTRO DO CLIENTE -->
-        <section id="area-cadastro" class="card">
-            <h2>Crie sua conta de acesso</h2>
-            <p>Preencha os dados abaixo para se cadastrar como responsável e registrar o paciente.</p>
-            
-            <form id="formCadastroCliente">
                 <div class="form-group">
-                    <label for="respNome">Seu Nome Completo (Responsável)</label>
-                    <input type="text" id="respNome" class="form-control" required>
+                    <label for="dataAgendamento">Selecione o Dia:</label>
+                    <input type="date" id="dataAgendamento" class="form-input" required>
                 </div>
-                <div class="form-group">
-                    <label for="respEmail">Seu E-mail</label>
-                    <input type="email" id="respEmail" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="respSenha">Crie uma Senha</label>
-                    <input type="password" id="respSenha" class="form-control" required>
-                </div>
-                <hr>
-                <div class="form-group">
-                    <label for="pacienteNome">Nome do Paciente</label>
-                    <input type="text" id="pacienteNome" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="pacienteNasc">Data de Nascimento do Paciente</label>
-                    <input type="date" id="pacienteNasc" class="form-control" required>
-                </div>
-                <button type="submit" class="btn">Finalizar Cadastro e Acessar</button>
-            </form>
-        </section>
 
-        <!-- ETAPA 2: MARCAÇÃO DE CONSULTA (Inicialmente Oculta) -->
-        <section id="area-agendamento" class="card hidden">
-            <h2>Agende uma Avaliação ou Sessão</h2>
-            <p>Selecione o serviço desejado e um horário disponível em nossa agenda.</p>
-
-            <form id="formAgendamento">
                 <div class="form-group">
-                    <label for="tipoServico">Qual serviço você procura?</label>
-                    <select id="tipoServico" class="form-control">
-                        <option>Avaliação Inicial (Triagem)</option>
-                        <option>Sessão de Terapia ABA</option>
-                        <option>Sessão de Fonoaudiologia</option>
-                        <option>Sessão de Terapia Ocupacional</option>
+                    <label for="horaAgendamento">Selecione o Horário:</label>
+                    <select id="horaAgendamento" class="form-input" required>
+                        <option value="">-- Escolha o horário --</option>
+                        <option value="08:00">08:00</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="dataConsulta">Escolha a data</label>
-                    <input type="date" id="dataConsulta" class="form-control">
-                </div>
-                <button type="submit" class="btn">Confirmar Marcação</button>
-            </form>
-        </section>
 
-    </main>
+                <button type="submit" class="btn-submit">Enviar Solicitação de Horário</button>
+            </form>
+        </div>
+
+        <!-- CONTATO VIA WHATSAPP -->
+        <div class="whatsapp-section">
+            <p>Precisa de ajuda ou deseja alterar um horário confirmado?</p>
+            <a href="https://wa.me/5581985828087?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20os%20agendamentos%20na%20Clínica%20Comunicar." 
+               target="_blank" class="btn-whatsapp">
+               💬 Falar pelo WhatsApp
+            </a>
+        </div>
+    </div>
 
     <script src="portal-cliente.js"></script>
 </body>
