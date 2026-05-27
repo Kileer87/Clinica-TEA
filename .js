@@ -10,6 +10,11 @@ let profissionais = [
     { nome: "Dr(a). Wyllyan Lima", esp: "Psicólogo(a) Infantil", nasc: "1991-09-27" }
 ];
 
+let evolucoes = [
+    { data: "25/05/2026", pac: "BENTO AFONSO DE BRITO FERNANDES", resumo: "Sessão focada em ecoico. Respondeu bem aos estímulos sonoros primários." },
+    { data: "26/05/2026", pac: "HELOISA DE MATHIA MARCHIORETTO", resumo: "Apresentou diminuição de comportamentos de esquiva durante troca de reforço." }
+];
+
 let dadosGrafico = [25, 45, 35, 0]; 
 let chartClinico;
 
@@ -80,12 +85,19 @@ function atualizarTelasESelects() {
     // Alimentar seletores (Selects) dinamicamente
     const selectPacAtribuir = document.getElementById('selectPacienteAtribuir');
     const selectPacRelatorio = document.getElementById('selectPacienteRelatorio');
+    const selectPacProntuario = document.getElementById('selectPacienteProntuario');
+    const selectBuscaProntuario = document.getElementById('selectBuscaProntuario');
+    
     selectPacAtribuir.innerHTML = '<option value="">-- Selecione o Paciente --</option>';
     selectPacRelatorio.innerHTML = '';
+    if (selectPacProntuario) selectPacProntuario.innerHTML = '<option value="">-- Selecione o Paciente --</option>';
+    if (selectBuscaProntuario) selectBuscaProntuario.innerHTML = '<option value="">-- Selecione o Paciente para visualizar --</option>';
     
     pacientes.forEach(p => {
         selectPacAtribuir.innerHTML += `<option value="${p.nome}">${p.nome}</option>`;
         selectPacRelatorio.innerHTML += `<option value="${p.nome}">${p.nome}</option>`;
+        if (selectPacProntuario) selectPacProntuario.innerHTML += `<option value="${p.nome}">${p.nome}</option>`;
+        if (selectBuscaProntuario) selectBuscaProntuario.innerHTML += `<option value="${p.nome}">${p.nome}</option>`;
     });
 
     const selectProfAtribuir = document.getElementById('selectProfissionalAtribuir');
@@ -162,6 +174,61 @@ document.getElementById('formAtribuir').addEventListener('submit', function(e) {
     this.reset();
     alert('Programa alocado e vinculado com sucesso!');
 });
+
+const formProntuario = document.getElementById('formProntuario');
+if (formProntuario) {
+    formProntuario.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const data = document.getElementById('dataProntuario').value;
+        const pac = document.getElementById('selectPacienteProntuario').value;
+        const resumo = document.getElementById('resumoProntuario').value;
+        
+        // Formatando a data de AAAA-MM-DD para DD/MM/AAAA
+        const [ano, mes, dia] = data.split('-');
+        const dataFormatada = `${dia}/${mes}/${ano}`;
+
+        evolucoes.push({ data: dataFormatada, pac: pac, resumo: resumo });
+        this.reset();
+        alert('Evolução adicionada ao prontuário com sucesso!');
+        
+        // Se o paciente salvo for o mesmo que está aberto na visualização, atualiza na hora
+        const selectBusca = document.getElementById('selectBuscaProntuario');
+        if (selectBusca && selectBusca.value === pac) {
+            visualizarProntuarioCompleto();
+        }
+    });
+}
+
+// --- VISUALIZAR PRONTUÁRIO COMPLETO ---
+function visualizarProntuarioCompleto() {
+    const select = document.getElementById('selectBuscaProntuario');
+    const area = document.getElementById('areaProntuarioCompleto');
+    
+    if (!select || !select.value) {
+        if (area) area.style.display = 'none';
+        return;
+    }
+
+    const pacNome = select.value;
+    const dadosPac = pacientes.find(p => p.nome === pacNome);
+    const evosDoPaciente = evolucoes.filter(e => e.pac === pacNome).reverse(); // Mais recentes primeiro
+
+    if (dadosPac) {
+        document.getElementById('nomePacienteProntuario').textContent = dadosPac.nome;
+        const [ano, mes, dia] = dadosPac.nasc.split('-');
+        document.getElementById('infoPacienteProntuario').innerHTML = `<strong>Responsável:</strong> ${dadosPac.resp} &nbsp;|&nbsp; <strong>Nascimento:</strong> ${dia}/${mes}/${ano} &nbsp;|&nbsp; <strong>Convênio:</strong> ${dadosPac.convenio}`;
+    }
+
+    document.getElementById('totalEvolucoesProntuario').textContent = evosDoPaciente.length;
+    document.getElementById('ultimaSessaoProntuario').textContent = evosDoPaciente.length > 0 ? evosDoPaciente[0].data : '-';
+
+    const lista = document.getElementById('listaProntuarioFiltrado');
+    lista.innerHTML = evosDoPaciente.length > 0 
+        ? evosDoPaciente.map(e => `<tr><td><strong>${e.data}</strong></td><td>${e.resumo}</td></tr>`).join('')
+        : `<tr><td colspan="2" style="text-align: center; color: #64748b; padding: 20px;">Nenhuma evolução registrada para este paciente ainda.</td></tr>`;
+    
+    area.style.display = 'block';
+}
 
 // --- 5. ENGENHARIA DE COLETA ABA E ATUALIZAÇÃO DO GRÁFICO ---
 const niveisAjudaABA = [
@@ -245,3 +312,12 @@ function inicializarGrafico() {
 atualizarTelasESelects();
 construirFolhaDeTentativas();
 inicializarGrafico();
+
+// --- 6. REGISTRO DO SERVICE WORKER (PWA) ---
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('Service Worker (PWA) registrado com sucesso!', reg.scope))
+            .catch(err => console.error('Falha ao registrar o Service Worker:', err));
+    });
+}

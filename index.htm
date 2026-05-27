@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clínica Comunicar - Sistema Integrado TEA/ABA</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#01493e">
     <!-- Biblioteca para Renderizar os Gráficos Clínicos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -35,7 +37,7 @@
                         <a href="#" class="submenu-item" data-target="pacientes">👥 Pacientes</a>
                         <a href="#" class="submenu-item" data-target="profissionais">📇 Profissionais</a>
                         <a href="#" class="submenu-item" data-target="especialidades">🩺 Especialidades</a>
-                        <a href="#" class="submenu-item" data-target="acompanhamento">🗂️ Acompanhamento</a>
+                        <a href="#" class="submenu-item" data-target="acompanhamento">🗂️ Prontuários</a>
                         <a href="#" class="submenu-item" data-target="aniversariantes">🎂 Aniversariantes</a>
                         <a href="#" class="submenu-item" data-target="anamnese">📋 Anamnese</a>
                         <a href="#" class="submenu-item" data-target="plano-terapeutico">🎯 Plano Terapêutico</a>
@@ -225,14 +227,55 @@
             <!-- SEÇÃO: ACOMPANHAMENTO -->
             <div id="acompanhamento" class="app-section">
                 <div class="card">
-                    <h2>🗂️ Diário Clínico de Acompanhamento</h2>
-                    <table class="data-table">
-                        <thead><tr><th>Data</th><th>Paciente</th><th>Resumo da Evolução Clínico-Comportamental</th></tr></thead>
-                        <tbody>
-                            <tr><td>25/05/2026</td><td>Bento Afonso</td><td>Sessão focada em ecoico. Respondeu bem aos estímulos sonoros primários.</td></tr>
-                            <tr><td>26/05/2026</td><td>Heloisa de Mathia</td><td>Apresentou diminuição de comportamentos de esquiva durante troca de reforço.</td></tr>
-                        </tbody>
-                    </table>
+                    <h2>🗂️ Registrar Evolução Diária</h2>
+                    <p style="color:#64748b; margin-bottom: 20px;">Adicione novas evoluções ao prontuário diário do paciente.</p>
+                    
+                    <form id="formProntuario" style="margin-bottom: 25px;">
+                        <div class="form-row">
+                            <input type="date" id="dataProntuario" class="form-control" required>
+                            <select id="selectPacienteProntuario" class="form-control" required>
+                                <option value="">-- Selecione o Paciente --</option>
+                            </select>
+                            <input type="text" id="resumoProntuario" class="form-control" placeholder="Resumo da Evolução (Ex: Sessão focada em ecoico...)" required style="flex: 2;">
+                            <button type="submit" class="btn">Salvar Evolução</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>🔎 Prontuário Completo (Diário, Mensal, Anual)</h2>
+                    <p style="color:#64748b; margin-bottom: 20px;">Selecione um paciente para visualizar o histórico completo de evoluções.</p>
+                    
+                    <div class="form-row" style="margin-bottom: 20px;">
+                        <select id="selectBuscaProntuario" class="form-control" onchange="visualizarProntuarioCompleto()">
+                            <option value="">-- Selecione o Paciente para visualizar --</option>
+                        </select>
+                    </div>
+
+                    <div id="areaProntuarioCompleto" style="display: none;">
+                        <div class="card" style="background-color: #f8f9fa; border-left: 5px solid #00796b; margin-bottom: 20px; padding: 15px;">
+                            <h3 id="nomePacienteProntuario" style="color: #0f172a; margin-bottom: 8px;">Nome do Paciente</h3>
+                            <p style="font-size: 14px; color: #475569;" id="infoPacienteProntuario">Responsável: - | Nascimento: -</p>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                            <div class="card card-green" style="flex: 1; min-width: 150px; padding: 15px; box-shadow: none; border: 1px solid #e2e8f0;">
+                                <h4 style="color: #64748b; font-size: 12px; margin-bottom: 5px;">Total de Evoluções</h4>
+                                <span id="totalEvolucoesProntuario" style="font-size: 24px; font-weight: bold; color: #01493e;">0</span>
+                            </div>
+                            <div class="card card-blue" style="flex: 1; min-width: 150px; padding: 15px; box-shadow: none; border: 1px solid #e2e8f0;">
+                                <h4 style="color: #64748b; font-size: 12px; margin-bottom: 5px;">Última Sessão Registrada</h4>
+                                <span id="ultimaSessaoProntuario" style="font-size: 16px; font-weight: bold; color: #0f172a;">-</span>
+                            </div>
+                        </div>
+
+                        <table class="data-table">
+                            <thead><tr><th>Data</th><th>Resumo da Evolução Clínico-Comportamental</th></tr></thead>
+                            <tbody id="listaProntuarioFiltrado">
+                                <!-- Registros filtrados aparecerão aqui -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

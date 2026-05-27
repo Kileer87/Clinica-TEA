@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema TEA - Gestão Clínica</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#01493e">
+    <!-- Biblioteca Chart.js para o gráfico de evolução -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon">🧩</div>
+                <div>
+                    <h2>Sistema TEA</h2>
+                    <span>Análise do Comportamento</span>
+                </div>
+            </div>
+            <nav class="menu">
+                <a href="#" class="menu-item active" data-target="dashboard">Dashboard</a>
+                <a href="#" class="menu-item" data-target="agenda">Agenda</a>
+                <a href="#" class="menu-item" data-target="pacientes">Pacientes</a>
+                <a href="#" class="menu-item" data-target="financeiro">Financeiro</a>
+                <a href="#" class="menu-item" data-target="programas-aba">Programas ABA</a>
+                <a href="#" class="menu-item" data-target="evolucao">Evolução Clínica</a>
+            </nav>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-content">
+            
+            <!-- SEÇÃO: DASHBOARD -->
+            <section id="dashboard" class="app-section active">
+                <div class="welcome-banner">
+                    <h1>Bem-vindo ao Sistema TEA</h1>
+                    <p>Visão geral do acompanhamento e da evolução dos pacientes.</p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card card-orange">
+                        <span class="card-title">Pacientes Ativos</span>
+                        <span class="card-value">24</span>
+                    </div>
+                    <div class="card card-blue">
+                        <span class="card-title">Sessões Realizadas</span>
+                        <span class="card-value">138</span>
+                    </div>
+                    <div class="card card-green">
+                        <span class="card-title">Metas Atingidas (Média)</span>
+                        <span class="card-value">85%</span>
+                    </div>
+                    <div class="card card-teal">
+                        <span class="card-title">Relatórios Pendentes</span>
+                        <span class="card-value">3</span>
+                    </div>
+                </div>
+
+                <h3 class="section-header">Últimas Sessões Registradas</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Paciente</th>
+                            <th>Programa Ativo</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaRegistros">
+                        <!-- Esta tabela será preenchida automaticamente pelo JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- SEÇÃO: AGENDA -->
+            <section id="agenda" class="app-section">
+                <h2 class="section-header">📅 Agenda da Clínica</h2>
+                <div class="card">
+                    <p style="text-align: center; color: #777; padding: 40px;">[Componente de Calendário Semanal Dinâmico]</p>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: PACIENTES -->
+            <section id="pacientes" class="app-section">
+                <h2 class="section-header">Gerenciamento de Pacientes</h2>
+                <div class="card">
+                    <p>Aqui você poderá cadastrar, editar e visualizar os dados completos dos pacientes, além de definir os programas de ensino individualizados (PEI).</p>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: FINANCEIRO -->
+            <section id="financeiro" class="app-section">
+                <h2 class="section-header">💰 Painel Financeiro</h2>
+                <div class="cards-grid">
+                    <div class="card card-green"><span class="card-title">A Receber Medido</span><span class="card-value">R$ 17.520,97</span></div>
+                    <div class="card card-orange"><span class="card-title">Contas a Pagar</span><span class="card-value">R$ 4.215,22</span></div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: PROGRAMAS ABA -->
+            <section id="programas-aba" class="app-section">
+                <h2 class="section-header">🧩 Catálogo de Programas ABA</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Área</th><th>Nome do Programa</th><th>Estratégia</th><th>Critério</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Atenção</td><td>Contato Visual</td><td>DTT</td><td>80% em 3d</td></tr>
+                        <tr><td>Imitação</td><td>Imitar movimentos amplos</td><td>DTT</td><td>90% em 2d</td></tr>
+                        <tr><td>Linguagem</td><td>Mandar (Pedir itens desejados)</td><td>NET</td><td>100% em 5d</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- SEÇÃO: EVOLUÇÃO CLÍNICA -->
+            <section id="evolucao" class="app-section">
+                <h2 class="section-header">Evolução Clínica e Coleta de Dados</h2>
+                <div class="card" style="max-width: 800px;">
+                    <!-- Gráfico renderizado via JavaScript -->
+                    <canvas id="evolucaoChart"></canvas>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src=".js"></script>
+</body>
+</html>

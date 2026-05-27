@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal do Cliente - Clínica Comunicar</title>
+    <link rel="stylesheet" href="portal-cliente.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00796b">
+</head>
+<body>
+
+    <header class="main-header">
+        <h1>🧩 Portal do Cliente - Clínica Comunicar</h1>
+    </header>
+
+    <main class="container">
+
+        <!-- ETAPA 1: CADASTRO DO CLIENTE -->
+        <section id="area-cadastro" class="card">
+            <h2>Crie sua conta de acesso</h2>
+            <p>Preencha os dados abaixo para se cadastrar como responsável e registrar o paciente.</p>
+            
+            <form id="formCadastroCliente">
+                <div class="form-group">
+                    <label for="respNome">Seu Nome Completo (Responsável)</label>
+                    <input type="text" id="respNome" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="respEmail">Seu E-mail</label>
+                    <input type="email" id="respEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="respSenha">Crie uma Senha</label>
+                    <input type="password" id="respSenha" class="form-control" required>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="pacienteNome">Nome do Paciente</label>
+                    <input type="text" id="pacienteNome" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="pacienteNasc">Data de Nascimento do Paciente</label>
+                    <input type="date" id="pacienteNasc" class="form-control" required>
+                </div>
+                <button type="submit" class="btn">Finalizar Cadastro e Acessar</button>
+            </form>
+        </section>
+
+        <!-- ETAPA 2: MARCAÇÃO DE CONSULTA (Inicialmente Oculta) -->
+        <section id="area-agendamento" class="card hidden">
+            <h2>Agende uma Avaliação ou Sessão</h2>
+            <p>Selecione o serviço desejado e um horário disponível em nossa agenda.</p>
+
+            <form id="formAgendamento">
+                <div class="form-group">
+                    <label for="tipoServico">Qual serviço você procura?</label>
+                    <select id="tipoServico" class="form-control">
+                        <option>Avaliação Inicial (Triagem)</option>
+                        <option>Sessão de Terapia ABA</option>
+                        <option>Sessão de Fonoaudiologia</option>
+                        <option>Sessão de Terapia Ocupacional</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="dataConsulta">Escolha a data</label>
+                    <input type="date" id="dataConsulta" class="form-control">
+                </div>
+                <button type="submit" class="btn">Confirmar Marcação</button>
+            </form>
+        </section>
+
+    </main>
+
+    <script src="portal-cliente.js"></script>
+</body>
+</html>

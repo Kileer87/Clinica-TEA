@@ -1,0 +1,21 @@
+{
+  "name": "Clínica Comunicar - Sistema Integrado",
+  "short_name": "Comunicar",
+  "description": "Sistema de Gestão Integrado TEA/ABA",
+  "start_url": "./index.htm",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#01493e",
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
