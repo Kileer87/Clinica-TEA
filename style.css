@@ -8,6 +8,10 @@
 
 body {
     background-color: #f8f9fa;
+    background-image: url('log1.png'); /* Altere para .jpg se a sua imagem for JPEG */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: #1e293b;
 }
 

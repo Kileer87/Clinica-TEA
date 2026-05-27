@@ -1,5 +1,9 @@
 body {
     background-color: #f1f5f9;
+    background-image: url('log2.png'); /* Altere para .jpg se a imagem for JPEG */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     padding: 20px;
 }
 
