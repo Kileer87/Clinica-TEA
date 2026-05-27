@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar - Clínica Comunicar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f1f5f9; display: flex; height: 100vh; align-items: center; justify-content: center; }
+        .login-card { background: white; padding: 40px; border-radius: 12px; width: 100%; max-width: 400px; box-shadow: 0 4px 12px rgba(1, 73, 62, 0.08); text-align: center; }
+        .logo-title { color: #01493e; margin-bottom: 25px; font-size: 24px; }
+        .form-group { margin-bottom: 15px; text-align: left; display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 13px; font-weight: 600; color: #334155; }
+        .form-input { padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
+        .form-input:focus { border-color: #00796b; }
+        .btn-login { width: 100%; background-color: #00796b; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .btn-login:hover { background-color: #01493e; }
+        .hint-text { font-size: 12px; color: #64748b; margin-top: 15px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card" id="cardLogin">
+        <h2 class="logo-title">➕ Clínica Comunicar</h2>
+        <form id="formLogin">
+            <div class="form-group">
+                <label for="usuario">E-mail ou Usuário:</label>
+                <input type="text" id="usuario" class="form-input" placeholder="seu-email@exemplo.com" required>
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha de Acesso:</label>
+                <input type="password" id="senha" class="form-input" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-login">Entrar no Sistema</button>
+        </form>
+
+        <div style="margin-top: 15px;">
+            <a href="#" id="linkCadastro" style="color: #00796b; font-size: 13px; font-weight: bold; text-decoration: none;">Não possui uma conta? Cadastre-se aqui</a>
+        </div>
+
+        <div class="hint-text">
+            <strong>Contas de Teste Integradas:</strong><br>
+            • Admin: <code>admin@clinica.com</code> (Senha: 123)<br>
+            • Cliente: <code>pai@comunicar.com</code> (Senha: 123)
+        </div>
+    </div>
+
+    <!-- FORMULÁRIO DE CADASTRO (Oculto por padrão) -->
+    <div class="login-card" id="cardCadastro" style="display: none;">
+        <h2 class="logo-title">📝 Cadastro de Cliente</h2>
+        <form id="formCadastroCliente">
+            <div class="form-group">
+                <label for="cadNome">Seu Nome Completo (Responsável):</label>
+                <input type="text" id="cadNome" class="form-input" placeholder="Ex: Maria da Silva" required>
+            </div>
+            <div class="form-group">
+                <label for="cadEmail">E-mail para Acesso:</label>
+                <input type="email" id="cadEmail" class="form-input" placeholder="seu-email@exemplo.com" required>
+            </div>
+            <div class="form-group">
+                <label for="cadSenha">Crie uma Senha:</label>
+                <input type="password" id="cadSenha" class="form-input" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-login">Criar Conta e Acessar</button>
+        </form>
+
+        <div style="margin-top: 20px;">
+            <a href="#" id="linkLogin" style="color: #64748b; font-size: 13px; font-weight: bold; text-decoration: none;">Já tem uma conta? Voltar ao Login</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('formLogin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const usuarioInput = document.getElementById('usuario').value.trim().toLowerCase();
+            const senhaInput = document.getElementById('senha').value;
+
+            // Busca clientes que foram recém-cadastrados no navegador
+            const clientesCadastrados = JSON.parse(localStorage.getItem('clientesCadastrados')) || [];
+            const clienteExistente = clientesCadastrados.find(c => c.email === usuarioInput && c.senha === senhaInput);
+
+            // 1. REGRA DE DIRECIONAMENTO INTELIGENTE
+            if (usuarioInput === "admin@clinica.com" && senhaInput === "123") {
+                // Redireciona o Administrador para o painel completo
+                window.location.href = "index.html";
+            } 
+            else if ((usuarioInput === "pai@comunicar.com" && senhaInput === "123") || clienteExistente) {
+                // Redireciona o Cliente exclusivamente para o portal dele
+                window.location.href = "portal-cliente.html";
+            } 
+            else {
+                alert("Acesso Negado: Usuário ou senha incorretos.");
+            }
+        });
+
+        // Transição: Vai para a tela de Cadastro
+        document.getElementById('linkCadastro').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('cardLogin').style.display = 'none';
+            document.getElementById('cardCadastro').style.display = 'block';
+        });
+
+        // Transição: Volta para a tela de Login
+        document.getElementById('linkLogin').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('cardCadastro').style.display = 'none';
+            document.getElementById('cardLogin').style.display = 'block';
+        });
+
+        // Lógica de salvar o novo cliente
+        document.getElementById('formCadastroCliente').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('cadEmail').value.trim().toLowerCase();
+            const senha = document.getElementById('cadSenha').value;
+            
+            let clientesCadastrados = JSON.parse(localStorage.getItem('clientesCadastrados')) || [];
+            
+            // Impede criar conta se o e-mail já estiver na lista
+            if (clientesCadastrados.some(c => c.email === email)) {
+                alert("Este e-mail já está cadastrado. Por favor, faça login.");
+                return;
+            }
+
+            // Salva o novo cliente
+            clientesCadastrados.push({ email: email, senha: senha });
+            localStorage.setItem('clientesCadastrados', JSON.stringify(clientesCadastrados));
+
+            // Direciona imediatamente para o painel
+            alert("Cadastro realizado com sucesso! Redirecionando para o seu portal...");
+            window.location.href = "portal-cliente.html";
+        });
+    </script>
+</body>
+</html>
